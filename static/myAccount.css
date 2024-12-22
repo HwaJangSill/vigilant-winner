@@ -1,0 +1,207 @@
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    margin-top: 150px;
+    margin-bottom: 200px;
+}
+
+#infoBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    padding: 40px;
+    padding-top: 80px;
+    margin: 10px;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    display: block;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#name {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+#viewProfile {
+    width: fit-content;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#activityLog {
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+#activityLog > h3 {
+    padding: 0;
+}
+
+#postCount {
+    display: flex;
+    flex-direction: row;
+}
+
+#commentCount {
+    display: flex;
+    flex-direction: row;
+    min-width: 250px;
+}
+
+#checkListCount > h3 {
+    padding: 0;
+}
+
+#checkListCount > ul {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#checkListCount > ul > li {
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px;
+    list-style: disc; /* 기본 점 스타일 (bullet) */
+    list-style-position: inside; /* 점의 위치를 지정: inside 또는 outside */
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+}
+
+#detail {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 50px;
+    margin: 10px;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    padding-left: 10px;
+    color: black;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 20px;
+    margin-top: 40px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    min-width: 200px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px;
+    min-width: 200px;
+}
+
+#btns {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    padding: 20px;
+}
+
+#btns > a {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#btns > button {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    border: 0;
+}
+
+#fileBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    margin-top: 40px;
+    margin-right: auto;
+}
+
+#fileName {
+    font-size: 16px;
+    font-weight: normal;
+    background-color: transparent;
+    padding: 10px;
+    border: 0;
+}
+
+#fileName:focus {
+    outline: none;
+    border: 0;
+}
+
+#fileBox > label {
+    height: max-content;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 7px;
+    padding-left: 15px;
+    padding-right:15px;
+    cursor: pointer;
+}
+
+#inputFile {
+    border: 0;
+    margin: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}

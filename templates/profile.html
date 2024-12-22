@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>프로필</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/profile.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div id="infoBar">
+            {% if userData['file_name'] == None or userData['file_name'] == "" %}
+            <img src="/static/images/default.png" alt="에러 발생!">
+            {% else %}
+            <img src="{{ userData['file_name'] }}" alt="에러 발생!">
+            {% endif %}
+            <div id="name">{{ userData['name'] }}</div>
+            {% if view %}
+            <a href="/memberList/" id="modifyBtn">돌아가기</a>
+            {% else %}
+            <a href="/myAccount/" id="modifyBtn">내 프로필 수정</a>
+            {% endif %}
+            <div id="activityLog">
+                <h3>활동 기록</h3>
+                <div id="postCount">
+                    <div style="margin-right: auto; color: rgba(0, 0, 0, 0.6); font-weight: bold; padding: 5px;">작성한 게시글</div>
+                    <div style="margin-left: auto; color: rgba(0, 0, 0, 0.6); padding: 5px;">{{ postCount }}</div>
+                </div>
+                <div id="commentCount">
+                    <div style="margin-right: auto; color: rgba(0, 0, 0, 0.6); font-weight: bold; padding: 5px;">작성한 댓글</div>
+                    <div style="margin-left: auto; color: rgba(0, 0, 0, 0.6); padding: 5px;">{{ commentCount }}</div>
+                </div>
+            </div>
+            <div id="checkListCount">
+                <h3>체크리스트</h3>
+                <ul>
+                    {% if checkListData == [] %}
+                    <div style="color: rgba(0, 0, 0, 0.6); font-weight: bold;">작성된 체크리스트가 없습니다</div>
+                    {% endif %}
+                    {% for checkList in checkListData %}
+                    <li>{{  checkList['text']  }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div id="detail">
+            <div class="box">
+                <h3>계정 정보</h3>
+                <div class="row">
+                    <div class="label">아이디</div>
+                    <div class="value">{{ userData['login_id'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">가입일</div>
+                    <div class="value">{{ userData['date'] }}</div>
+                </div>
+            </div>
+            <div class="box">
+                <h3>세부 정보</h3>
+                <div class="row">
+                    <div class="label">성명</div>
+                    <div class="value">{{ userData['name'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">트랙</div>
+                    <div class="value">{{ userData['track'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">플랜</div>
+                    <div class="value">{{ userData['plan'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">이메일</div>
+                    <div class="value">{{ userData['email'] }}</div>
+                </div>
+            </div>
+            <div class="box">
+                <h3>소속</h3>
+                <div class="value" style="font-weight: bold;">{{ userData['affiliation'] }}</div>
+            </div>
+        </div>
+    </main>
+    {% include "footer.html" %}
+</body>
+</html>

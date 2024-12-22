@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>프로필</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/myAccount.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div id="infoBar">
+            {% if userData['file_name'] == None or userData['file_name'] == "" %}
+            <img src="/static/images/default.png" alt="에러 발생!">
+            {% else %}
+            <img src="{{ userData['file_name'] }}" alt="에러 발생!">
+            {% endif %}
+            <div id="name">{{ userData['name'] }}</div>
+            <a href="/profile/" id="viewProfile">내 프로필 조회</a>
+            <div id="activityLog">
+                <h3>활동 기록</h3>
+                <div id="postCount">
+                    <div style="margin-right: auto; color: rgba(0, 0, 0, 0.6); font-weight: bold; padding: 5px;">작성한 게시글</div>
+                    <div style="margin-left: auto; color: rgba(0, 0, 0, 0.6); padding: 5px;">{{ postCount }}</div>
+                </div>
+                <div id="commentCount">
+                    <div style="margin-right: auto; color: rgba(0, 0, 0, 0.6); font-weight: bold; padding: 5px;">작성한 댓글</div>
+                    <div style="margin-left: auto; color: rgba(0, 0, 0, 0.6); padding: 5px;">{{ commentCount }}</div>
+                </div>
+            </div>
+            <div id="checkListCount">
+                <h3>체크리스트</h3>
+                <ul>
+                    {% if checkListData == [] %}
+                    <div style="color: rgba(0, 0, 0, 0.6); font-weight: bold;">작성된 체크리스트가 없습니다</div>
+                    {% endif %}
+                    {% for checkList in checkListData %}
+                    <li>{{  checkList['text']  }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <form action="/myAccount/" method="POST" enctype="multipart/form-data" id="detail">
+            <div class="box">
+                <h3>계정 정보</h3>
+                <div class="row">
+                    <div class="label">아이디</div>
+                    <div class="value">{{ userData['login_id'] }}</div>
+                </div>
+                <div class="row">
+                    <label for="pw" class="label">패스워드</label>
+                    <input type="password" name="login_pw" class="value" id="pw" value="{{ userData['date'] }}"/>
+                </div>
+            </div>
+            <div class="box">
+                <h3>세부 정보</h3>
+                <div class="row">
+                    <div class="label">성명</div>
+                    <div class="value">{{ userData['name'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">트랙</div>
+                    <div class="value">{{ userData['track'] }}</div>
+                </div>
+                <div class="row">
+                    <div class="label">플랜</div>
+                    <div class="value">{{ userData['plan'] }}</div>
+                </div>
+                <div class="row">
+                    <label for="email" class="label">이메일</label>
+                    <input type="email" name="email" class="value" id="email"value="{{ userData['email'] }}"/>
+                </div>
+            </div>
+            <div class="box">
+                <h3>소속</h3>
+                <input type="text" name="affiliation" class="value" style="font-weight: bold;" value="{{ userData['affiliation'] }}"/>
+            </div>
+            <div id="fileBox">
+                <label for="inputFile">이미지 업로드</label>
+                <input type="file" name="file_name" id="inputFile" />
+                <input type="text" id="fileName" placeholder="첨부된 파일이 없습니다" disabled>
+            </div>
+            <div id="btns">
+                <a href="/exit/" style="color: red;">회원 탈퇴</a>
+                <button type="submit">수정</button>
+            </div>
+        </form>
+    </main>
+    {% include "footer.html" %}
+    <script>
+        const fileName = document.querySelector("#fileName");
+        const inputFile = document.querySelector("#inputFile");
+
+        inputFile.addEventListener('change', () => fileName.value = inputFile.files[0].name);
+    </script>
+</body>
+</html>

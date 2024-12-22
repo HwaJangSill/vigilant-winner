@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게시글</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/view.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <section id="post">
+            <h1 id="title">
+                {{ postData['title'] }}
+            </h1>
+            <div class="infoBox" id="writerInfo">
+                <span class="{{ postData['plan'] }}">{{ postData['plan'] }}</span>
+                <span class="user_name">{{ postData['name'] }}</span>
+                <span class="date">{{ postData['date'] }}</span>
+            </div>
+            <div id="text">
+                {{ postData['text'] }}
+            </div>
+            <div id="Btns">
+                {% if postData %}
+                <button type="button" class="button" onclick="deletePost()">삭제하기</button>
+                <button type="button" class="button" onclick="modifyPost()">수정하기</button>
+                {% endif %}
+                <button type="button" class="button" onclick="location.href='/board/'">돌아가기</button>
+            </div>
+        </section>
+        <section id="comments">
+            <h2>댓글</h2>
+            <form id="commentForm">
+                <textarea id="commentInput" name="comment" rows="1" placeholder="댓글을 입력하세요"></textarea>
+                <hr style="border: 1px solid rgba(0, 0, 0, 0.3); width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                <input type="submit" value="작성" class="button" style="padding-top: 6px; padding-bottom: 6px;"/>
+            </form>
+
+            <div id="commentContent"></div>
+
+        </section>
+    </main>
+    {% include "footer.html" %}
+    <script>
+        const title = document.querySelector("#title");
+        const writerInfo = document.querySelector("#writerInfo");
+        const text = document.querySelector("#text");
+        const Btns = document.querySelector("#Btns");
+        const commentForm = document.querySelector("#commentForm");
+        const commentInput = document.querySelector("#commentInput");
+        const commentContent = document.querySelector("#commentContent");
+        const hr = document.querySelector("hr");
+        const UrlQuery = getUrlQuery();
+        const cookie = getCookie();
+
+        // 댓글 입력창 자동 높이 조절
+        commentInput.addEventListener("input", () => {
+            commentInput.style.height = "auto";
+            commentInput.style.height = `${commentInput.scrollHeight}px`;
+        });
+
+        // 단순 css 적용 이벤트 핸들러
+        commentInput.addEventListener("focus", () => hr.style.border = "1px solid black");
+        commentInput.addEventListener("blur", () => hr.style.border = "1px solid rgba(0, 0, 0, 0.3)");
+
+        // 댓글 작성 후 전송 처리
+        commentForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            sendCommentData(commentInput.value);
+            commentInput.value = "";
+            commentInput.style.height = "auto";
+            commentInput.style.height = `${commentInput.scrollHeight}px`;
+        });
+
+        // 브라우저에서 쿠키 데이터를 가져오는 함수
+        // function getCookie(){
+        //     const result = {};
+        //     document.cookie.split("; ").forEach((data) => {
+        //         const [key, value] = data.split("=");
+        //         result[key] = value;
+        //     });
+        //     return result;
+        // }
+
+        // 현재 URL에 존재하는 쿼리 파라미터 가져오는 함수
+        function getUrlQuery(){
+            const result = {};
+            window.location.search.substr(1).split("&").forEach((data) => {
+                const [key, value] = data.split("=");
+                result[key] = value;
+            });
+            return result;
+        }
+        
+        // 서버에 비동기 요청을 보내 게시글 데이터를 가져와 랜더링하는 함수
+        // function getPostData(getPostQuery){
+        //     fetch("/search/", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             Query: getPostQuery
+        //         }),
+        //     }).then((response) => response.json())
+        //     .then((data) => {console.log(data);renderPost(data[0]);})
+        //     .then(() => getCommentData(`SELECT * FROM comment WHERE post_id='${UrlQuery['post_id']}';`));
+        // }
+
+        // 게시글 렌더링 담당 함수 (getPostData 함수 내부에서 fetch chain으로 사용됨.)
+        // function renderPost(data){
+        //     title.innerHTML += data['title'];
+        //     writerInfo.innerHTML = 
+        //         `<span class="${data['plan']}">${data['plan']}</span>
+        //         <span class="user_name">${data['user_name']}</span>
+        //         <span class="date">${data['date']}</span>`;
+        //     text.innerText = data['text'];
+
+        //     if(cookie['user_id'] == data['user_id']){
+        //         Btns.innerHTML += `
+        //         <button type="button" class="button" onclick="location.href='/writing/?edit=delete&post_id=${data['post_id']}'">삭제하기</button>
+        //         <button type="button" class="button" onclick="location.href='/writing/?edit=modify&post_id=${data['post_id']}'">수정하기</button>
+        //         `;
+        //     };
+        // }
+
+        // 서버에서 댓글 데이터를 가져와 랜더링하는 함수
+        function getCommentData(Query){
+            fetch("/api/comment/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    QueryType: "SELECT",
+                    Query: Query
+                }),
+            }).then((response) => response.json())
+            .then((data) => {console.log(data);renderComment(data);});
+        }
+
+        // 댓글 입력창에 입력한 값을 서버로 전송하는 함수
+        function sendCommentData(text){
+            fetch("/api/comment/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    QueryType: "INSERT",
+                    data: text,
+                    post_id: UrlQuery['post_id'],
+                    user_id: cookie['user_id']
+                }),
+            }).then((response) => response.json())
+            .then(() => getCommentData(`SELECT * FROM comment WHERE post_id='${UrlQuery['post_id']}';`));
+        }
+
+        // 댓글 랜더링 담당 함수
+        function renderComment(data){
+            commentContent.innerHTML = "";
+            data.forEach((data) => {
+                commentContent.innerHTML +=
+                `<div class="commentContainer">
+                    <div class="infoBox">
+                        <span class="${data['plan']}">${data['plan']}</span>
+                        <span class="user_name">${data['user_name']}</span>
+                        <span class="date">${data['date']}</span>
+                    </div>
+                    <div class="comment" style="white-space: pre-wrap;">${data['text']}</div>
+                </div>`
+            });
+        }
+
+        // 게시글 삭제 요청
+        function deletePost(){
+            location.href=`/writing/?edit=delete&post_id=${UrlQuery['post_id']}`;
+        }
+
+        // 게시글 수정 요청
+        function modifyPost(){
+            location.href=`/writing/?edit=modify&post_id=${UrlQuery['post_id']}`;
+        }
+        // getPostData(`SELECT * FROM board WHERE post_id='${UrlQuery['post_id']}';`);
+        
+    </script>
+</body>
+</html>

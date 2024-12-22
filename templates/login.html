@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>로그인</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% block header %}
+        {% include "header.html" %}
+    {% endblock %}
+    <main>
+        {% if ID %}
+        <h1>아이디 찾기</h1>
+        <form id="loginForm">
+            <h3>귀하의 아이디는 다음과 같습니다</h3>
+            <input type="text" value="{{ ID }}" readonly/>
+            <button onclick="location.href='/login/'">로그인 하기</button>
+        </form>
+        {% elif PW %}
+        <h1>패스워드 찾기</h1>
+        <form id="loginForm">
+            <h3>귀하의 임시 패스워드입니다</h3>
+            <input type="text" value="{{ PW }}" readonly/>
+            <p id="notice">※안전을 위해 로그인 후 패스워드를 변경해 주세요</p>
+            <button onclick="location.href='/login/'">로그인 하기</button>
+        </form>
+        {% elif find == 'id' %}
+        <h1>아이디 찾기</h1>
+        <form action="/login/" method="POST" id="loginForm">
+            <input type="hidden" name="type" value="find_id">
+            <label for="emailBox">이메일</label>
+            <input type="email" name="email" id="emailBox" />
+            <label for="pwBox">패스워드</label>
+            <input type="password" name="pw" id="pwBox" />
+            <div id="btns">
+                <a href="/login/?find=id">아이디 찾기</a>/
+                <a href="/login/?find=pw">패스워드 찾기</a>
+                <button type="submit">아이디 찾기</button>
+            </div>
+        </form>
+        {% elif find == 'pw' %}
+        <h1>패스워드 찾기</h1>
+        <form action="/login/" method="POST" id="loginForm">
+            <input type="hidden" name="type" value="find_pw">
+            <label for="nameBox">성명</label>
+            <input type="text" name="name" id="nameBox" />
+            <label for="idBox">아이디</label>
+            <input type="text" name="id" id="idBox" />
+            <label for="emailBox">이메일</label>
+            <input type="email" name="email" id="emailBox" />
+            <div id="btns">
+                <a href="/login/?find=id">아이디 찾기</a>/
+                <a href="/login/?find=pw">패스워드 찾기</a>
+                <button type="submit">패스워드 찾기</button>
+            </div>
+        </form>
+        {% else %}
+        <h1>로그인</h1>
+        <form action="/login/" method="POST" id="loginForm">
+            <input type="hidden" name="type" value="login">
+            <label for="idBox">아이디</label>
+            <input type="text" name="id" id="idBox" />
+            <label for="pwBox">패스워드</label>
+            <input type="password" name="pw" id="pwBox" />
+            <div id="btns">
+                <a href="/login/?find=id">아이디 찾기</a>/
+                <a href="/login/?find=pw">패스워드 찾기</a>
+                <button type="submit">로그인</button>
+            </div>
+        </form>
+        {% endif %}
+    </main>
+    {% include "footer.html" %}
+</body>
+</html>

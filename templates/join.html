@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/join.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <h1>회원가입</h1>
+        <form action="/join/" method="POST" id="joinForm">
+            <h2>계정 정보</h2>
+            <label for="idBox">아이디</label>
+            <div>
+                <input type="text" name="id" id="idBox" required />
+                <button id="idCheckBtn">중복 확인</button>
+            </div>
+            <label for="pwBox">패스워드</label>
+            <input type="password"  name="pw" id="pwBox" required />
+            <label for="doubleCheck">중복 확인</label>
+            <input type="password" id="doubleCheck" required />
+            <hr style="border: 0; margin-top: 30px;">
+            <h2>세부 사항</h2>
+            <label for="track">트랙</label>
+            <select name="track" id="track">
+                <option value="웹해킹">웹해킹</option>
+                <option value="리버싱">리버싱</option>
+                <option value="시스템">시스템</option>
+            </select>
+            <label for="plan">플랜</label>
+            <select name="plan" id="plan">
+                <option value="Survival">Survival</option>
+                <option value="Full">Full</option>
+            </select>
+            <label for="name">이름</label>
+            <input type="text" name="name" id="name" required/>
+            <label for="email">이메일</label>
+            <input type="email" name="email" id="email" required />
+            <label for="Affiliation">소속</label>
+            <input type="text" name="Affiliation" id="Affiliation">
+            <button type="submit" id="submitBtn">가입하기</button>
+        </form>
+    </main>
+    {% include "footer.html" %}
+    <script>
+        const joinForm = document.querySelector("#joinForm");
+        const idCheckBtn = document.querySelector("#idCheckBtn");
+        const idBox = document.querySelector("#idBox");
+        const pwBox = document.querySelector("#pwBox");
+        const doubleCheck = document.querySelector("#doubleCheck");
+        const submitBtn = document.querySelector('#submitBtn');
+        
+        // 사용할 수 있는 아이디인지 검사하는 기능 구현
+        idCheckBtn.addEventListener("click", () => {
+            fetch(`/join/?login_id=${idBox.value}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data) {
+                    alert("사용 가능한 아이디입니다");
+                    idBox.style.outline = '0';
+                } else {
+                    alert("이미 사용 중인 아이디입니다");
+                    idBox.style.outline = '1px solid red';
+                    idBox.focus();
+                }
+            });
+        });
+
+        // 제출 버튼에 클릭 이벤트에 동작할 함수를 적용하여 입력 제어 및 패스워드 중복 검사 구현
+        submitBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (idBox.value == "") { // 아이디 입력창에 아무런 값도 입력되지 않은 경우
+                alert("아이디를 입력해 주세요");
+            idBox.focus();
+                return;
+            }
+            if (pwBox.value == "") { // 패스워드 입력창에 아무런 값도 입력되지 않은 경우
+                alert("패스워드를 입력해 주세요");
+                pwBox.focus();
+                return;
+            }
+            if((pwBox.value != doubleCheck.value)){ // 패스워드 중복 검사
+                alert("패스워드를 다시 확인해 주세요");
+                doubleCheck.style.outline = "1px solid red";
+            } else joinForm.submit();
+        });
+    </script>
+</body>
+</html>

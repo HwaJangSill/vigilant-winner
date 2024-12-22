@@ -1,0 +1,79 @@
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    margin-top: 160px;
+    margin-bottom: 80px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    border-radius: 10px;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 100px;
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+input {
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+#btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#btns > a {
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0;
+}
+
+button {
+    margin-left: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+#notice {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 30px;
+}

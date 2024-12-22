@@ -1,0 +1,122 @@
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    margin-top: 120px;
+    margin-bottom: 150px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    font-size: 24px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+textarea {
+    height: 400px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    resize: none;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: black;
+    border: 0;
+    color: white;
+    font-size: 16px;
+    margin-left: auto;
+    border-radius: 5px;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
+#fileBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: auto;
+}
+
+#fileName {
+    font-size: 16px;
+    font-weight: normal;
+    background-color: transparent;
+    padding: 10px;
+    border: 0;
+}
+
+#fileName:focus {
+    outline: none;
+    border: 0;
+}
+
+#fileBox > label {
+    height: max-content;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 7px;
+    padding-left: 15px;
+    padding-right:15px;
+    cursor: pointer;
+}
+
+#inputFile {
+    border: 0;
+    margin: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+[type='checkbox'] {
+    accent-color: black;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+[for="secretBox"] {
+    margin: 5px;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+#secretBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+}

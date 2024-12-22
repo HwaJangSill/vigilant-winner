@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게시판</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/memberList.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <h1>회원 목록</h1>
+    <main>
+        <table>
+            <colgroup>
+                <col>
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 20%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>트랙</th>
+                    <th>플랜</th>
+                    <th>성명</th>
+                    <th>가입 시각</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in userData %}
+                <tr onclick="location.href='/profile/?user_id={{ user['id'] }}'">
+                    <td>{{ user['track'] }}</td>
+                    <td>{{ user['plan'] }}</td>
+                    <td>{{ user['name'] }}</td>
+                    <td>{{ user['date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <div id="pageBtn"></div>
+    {% include "footer.html" %}
+</body>
+</html>

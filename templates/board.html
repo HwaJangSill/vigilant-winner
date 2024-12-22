@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게시판</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/board.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <h1>게시판</h1>
+    <main>
+        <div id="searchBar">
+            <form>
+                <a href="/writing/" id="goToWrite">글 쓰러 가기 &#10140;</a>
+                <select name="searchType">
+                    <option value="ALL">전체</option>
+                    <option value="TITLE">제목</option>
+                    <option value="TEXT">내용</option>
+                    <option value="PLAN">플랜</option>
+                    <option value="AUTH">작성자</option>
+                </select>
+                <input type="text" name="search" placeholder="검색" />
+                <input type="submit" value="🔍︎" id="searchBtn" />
+            </form>
+        </div>
+        <table>
+            <colgroup>
+                <col>
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 20%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>플랜</th>
+                    <th>작성 시각</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </main>
+    <div id="pageBtn"></div>
+    {% include "footer.html" %}
+    <script>
+        
+        let postData;
+        const searchForm = document.querySelector("form");
+        const pageBtn = document.querySelector("#pageBtn");
+        const tbody = document.querySelector("tbody");
+        const select = document.querySelector("select");
+        const searchInput = document.querySelector("input");
+        
+        // 검색 기능을 위한 이벤트 핸들러
+        searchForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let searchType = select.value;
+            let inputData = searchInput.value;
+            search(searchType, inputData);
+        });
+
+        function createRow(idx){ // 데이터베이스에서 가져온 데이터로 테이블 안에 행 추가
+            tbody.innerHTML = "";
+            let MAX = (idx*10 < postData.length) ? idx*10 : postData.length;
+            for(let i=(idx-1)*10; i<MAX; i++){
+                if (postData[i]['secret'] != 'False') {
+                    tbody.innerHTML += `
+                    <tr onclick="pwCheck(${postData[i]['post_id']})">
+                        <td>${postData[i]['title']} 🔒︎</td>
+                        <td>${postData[i]['user_name']}</td>
+                        <td>
+                            <div id="${postData[i]['plan']}">${postData[i]['plan']}</div>
+                        </td>
+                        <td>${postData[i]['date']}</td>
+                    </tr>`;
+                } else {
+                    tbody.innerHTML += `
+                    <tr onclick="location.href='/view/?post_id=${postData[i]['post_id']}'">
+                        <td>${postData[i]['title']}</td>
+                        <td>${postData[i]['user_name']}</td>
+                        <td>
+                            <div id="${postData[i]['plan']}">${postData[i]['plan']}</div>
+                        </td>
+                        <td>${postData[i]['date']}</td>
+                    </tr>`;
+                }
+            }
+        }
+
+        // 게시판에 나열될 수 있는 총 게시글의 수는 10개
+        // 게시글 개수에 비례하여 게시판 하단의 버튼을 생성하는 함수
+        function createBtn(){
+            pageBtn.innerHTML = "";
+            const pageCount = postData.length/10;
+            if(pageCount < 1) return
+            for(let i=0; i<pageCount; i++){
+                pageBtn.innerHTML += 
+                `<button type="button" onclick="createRow(${i+1})">${i+1}</button>`;
+            }
+        }
+        
+        // 작성된 게시글이 없을 때 안내 메시지 출력 함수
+        function emptyBody(){
+            if(tbody.innerHTML == ''){
+                tbody.innerHTML='<td colspan="4" style=\'text-align: center; font-size: 18px; font-weight: bold; color: gray;\'>작성된 글이 없습니다</td>';
+            }
+        }
+        
+        // 서버에서 게시글 데이터를 가져오는 함수
+        function getData(inputData){
+            fetch("/search/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    Query: inputData
+                }),
+            }).then((response) => response.json())
+            .then((data) => {postData = data;})
+            .then(() => createRow(1))
+            .then(() => createBtn())
+            .then(() => emptyBody());
+        }
+        
+
+        // 검색 기능을 위한 함수(서버로 입력한 값을 포함하는 게시글을 찾을 수 있도록 메타 문자 '%' 를 사용함)
+        function search(searchType, inputData){
+            QueryDict = {
+                
+                ALL: `SELECT * FROM board WHERE 
+                    user_name like '%${inputData}%' OR 
+                    plan like '%${inputData}%' OR 
+                    title like '%${inputData}%' OR 
+                    text like '%${inputData}%';`,
+                
+                TITLE: `SELECT * FROM board WHERE 
+                    title like '%${inputData}%';`,
+
+                TEXT: `SELECT * FROM board WHERE 
+                    text like '%${inputData}%';`,
+                
+                PLAN: `SELECT * FROM board WHERE
+                    plan like '%${inputData}%';`,
+
+                AUTH: `SELECT * FROM board WHERE
+                    user_name like '%${inputData}%';`
+
+            }
+            getData(QueryDict[searchType]);
+        }
+
+        // 비밀글로 설정된 경우 비밀번호 검증
+        function pwCheck(postid){
+            let pw = prompt("비밀번호를 입력해주세요");
+            location.href=`/view/?post_id=${postid}&password=${pw}`;
+        }
+        
+        // 게시판 초기화를 위해 페이지가 새로 랜더링 될 때마다 서버에서 게시글 데이터를 가져와 랜더링하기
+        getData("SELECT * FROM board;");
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>체크리스트</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/checkList.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <h1>체크리스트</h1>
+        <form action="/checkList/" method="POST" id="checkListForm">
+            <input type="text" name="text" placeholder="체크리스트 작성하기"/>
+            <button type="submit">+</button>
+        </form>
+        <ul>
+            {% for list in checkLists %}
+                <form action="/checkList/" method="POST" class="deleteForm">
+                    <li>{{ list['text'] }}</li>
+                    <input type="hidden" name="delete" value="{{ list['post_id'] }}" />
+                    <button type="submit" class="deleteButton">X</button>
+                </form>
+            {% endfor %}
+        </ul>
+    </main>
+    {% include "footer.html" %}
+    <script>
+        let ul = document.querySelector("ul");
+        if (ul.innerText == "") {
+            ul.style.paddingLeft='20px';
+            ul.style.paddingRight='20px';
+            ul.style.textAlign='center';
+            ul.style.fontSize='18px'
+            ul.style.fontWeight='bold';
+            ul.style.color='gray';
+            ul.innerText = "목록이 없습니다";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    min-height: 420px;
+    width: 65%;
+}
+
+#searchBar {
+    width: 100%;
+    padding-bottom: 10px;
+    white-space: nowrap;
+}
+
+form {
+    display: flex;
+}
+
+#goToWrite {
+    font-size: 18px;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-right: auto;
+}
+
+select {
+    font-size: 18px;
+    background-color: white;
+    color: gray;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-left: auto;
+    border-radius: 3px;
+}
+
+input {
+    font-size: 18px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#searchBtn {
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    border-radius: 3px;
+    border-radius: 1px solid black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+}
+
+thead > tr > th:nth-child(1) {
+    text-align: left !important;
+}
+
+thead > tr > th:nth-child(4) {
+    text-align: left !important;
+}
+
+tbody > tr > td:nth-child(1) {
+    text-align: left;
+}
+
+tbody > tr > td:nth-child(4) {
+    text-align: left;
+}
+
+th {
+    font-size: 18px;
+    padding-top: 4px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: black;
+}
+
+tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+td {
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#Survival {
+    text-align: center;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    background-color: orangered;
+}
+
+#Full {
+    text-align: center;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    background-color: green;
+}
+
+#pageBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 23px;
+    align-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
+
+#pageBtn > button {
+    background-color: transparent;
+    border: 0;
+    font-size: 18px;
+}
+
+

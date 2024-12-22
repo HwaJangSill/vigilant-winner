@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/footer.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        {% if loginState %}
+            <h1>{{ name }}님의 할 일 목록</h1>
+            <ul>
+                {% for list in checkLists %}
+                    <li id="{{ list['post_id'] }}">{{ list['text'] }}</li>
+                {% endfor %}
+            </ul>
+            <a href="/checkList/" id="goToCheckList">체크리스트 수정하기 &#10140;</a>
+        {% else %}
+            <h1>빡공팟 11기 여러분, 반갑습니다!</h1>
+            <div id="text">
+                <p>이 사이트는 빡공팟 여러분의 과제를 돕기 위해 개발되었습니다.</p>
+                <p><strong>과제 체크리스트</strong>를 작성하여 놓친 부분은 없는지 확인해 보세요.</p>
+                <p>간단한 회원가입 및 로그인 후 해당 기능을 이용하실 수 있습니다.</p>
+            </div>
+            <a href="/checkList/" id="goToCheckList">
+                체크리스트 작성하러 가기 &#10140;
+            </a>
+        {% endif %}
+    </main>
+    {% include "footer.html" %}
+    <script>
+        let ul = document.querySelector("ul");
+        if (ul.innerText == "") {
+            ul.style.paddingLeft='20px';
+            ul.style.paddingRight='20px';
+            ul.style.textAlign='center';
+            ul.style.fontSize='18px'
+            ul.style.fontWeight='bold';
+            ul.style.color='gray';
+            ul.innerText = "목록이 없습니다";
+        }
+    </script>
+</body>
+</html>
